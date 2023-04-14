@@ -1,5 +1,19 @@
 # kickstart.nvim
 
+### How to install
+
+1. [Optional] If you have an already existing nvim configuration, you can clean it up (remember to do a backup if you might want to keep it).
+
+```
+$ scripts/clean-nvim.sh
+```
+
+2. Do a symbolic link (or copy) these configuration files inside `~/.config/nvim`
+
+```
+$ ln -s ~/init.nvim ~/.config/nvim
+```
+
 ### Introduction
 
 A starting point for Neovim that is:
