@@ -1,6 +1,7 @@
 vim.opt.relativenumber = true
 vim.opt.wrap = false
 vim.opt.scrolloff = 8
+vim.opt.swapfile = false
 
 -- File saving
 vim.keymap.set('n', '<leader>w', '<CMD>update<CR>')
