@@ -250,6 +250,7 @@ pcall(require('telescope').load_extension, 'fzf')
 
 -- See `:help telescope.builtin`
 vim.keymap.set('n', '<leader>?', require('telescope.builtin').oldfiles, { desc = '[?] Find recently opened files' })
+vim.keymap.set('n', '<leader>sr', require('telescope.builtin').resume, { desc = '[S]earch [R]esume' })
 vim.keymap.set('n', '<leader><space>', require('telescope.builtin').buffers, { desc = '[ ] Find existing buffers' })
 vim.keymap.set('n', '<leader>/', function()
   -- You can pass additional configuration to telescope to change theme, layout, etc.
@@ -258,12 +259,15 @@ vim.keymap.set('n', '<leader>/', function()
     previewer = false,
   })
 end, { desc = '[/] Fuzzily search in current buffer' })
-
 vim.keymap.set('n', '<C-P>', require('telescope.builtin').find_files, { desc = 'Fuzzily search files' })
 vim.keymap.set('n', '<leader>sh', require('telescope.builtin').help_tags, { desc = '[S]earch [H]elp' })
-vim.keymap.set('n', '<leader>sw', require('telescope.builtin').grep_string, { desc = '[S]earch current [W]ord' })
-vim.keymap.set('n', '<leader>sg', require('telescope.builtin').live_grep, { desc = '[S]earch by [G]rep' })
+vim.keymap.set('v', '<C-f>', function()
+  vim.cmd.normal('y')
+  require('telescope.builtin').grep_string({ search = vim.fn.getreg('0') })
+end, { desc = 'Search current visual selection' })
+vim.keymap.set('n', '<C-f>', require('telescope.builtin').live_grep, { desc = 'Search by grep' })
 vim.keymap.set('n', '<leader>sd', require('telescope.builtin').diagnostics, { desc = '[S]earch [D]iagnostics' })
+vim.keymap.set('n', '<leader>tgs', require('telescope.builtin').git_status, { desc = '[T]elescope [G]it [S]status' })
 
 -- [[ Configure Treesitter ]]
 -- See `:help nvim-treesitter`
@@ -358,7 +362,9 @@ local on_attach = function(_, bufnr)
   nmap('<leader>ca', vim.lsp.buf.code_action, '[C]ode [A]ction')
 
   nmap('gd', vim.lsp.buf.definition, '[G]oto [D]efinition')
-  nmap('gr', require('telescope.builtin').lsp_references, '[G]oto [R]eferences')
+  nmap('gr', function()
+    require('telescope.builtin').lsp_references(require('telescope.themes').get_ivy({}))
+  end, '[G]oto [R]eferences')
   nmap('gI', vim.lsp.buf.implementation, '[G]oto [I]mplementation')
   nmap('<leader>D', vim.lsp.buf.type_definition, 'Type [D]efinition')
   nmap('<leader>ds', require('telescope.builtin').lsp_document_symbols, '[D]ocument [S]ymbols')

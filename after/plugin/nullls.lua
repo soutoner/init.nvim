@@ -17,7 +17,11 @@ null_ls.setup({
         buffer = bufnr,
         group = group,
         callback = function()
-          vim.lsp.buf.format({ bufnr = bufnr, async = async })
+          if vim.bo.filetype == 'typescript' then
+            vim.cmd(":Prettier")
+          else
+            vim.lsp.buf.format({ bufnr = bufnr, async = async })
+          end
         end,
         desc = "[lsp] format on save",
       })
